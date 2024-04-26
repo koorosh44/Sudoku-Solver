@@ -51,3 +51,18 @@ instance_c = [ If(instance[i][j] == 0,
                   True,
                   X[i][j] == instance[i][j])
                for i in range(9) for j in range(9) ]
+
+# Create a solver instance
+s = Solver()
+
+# Add all constraints to the solver
+s.add(sudoku_c + instance_c)
+
+if s.check() == sat:
+    m = s.model()
+    r = [ [ m.evaluate(X[i][j]) for j in range(9) ]
+          for i in range(9) ]
+    print("Solution: ")
+    print_matrix(r)
+else:
+    print("failed to solve")
